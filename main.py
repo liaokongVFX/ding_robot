@@ -28,7 +28,12 @@ async def ding(data: dict, timestamp: Optional[int] = Header(None), sign: Option
     if message[0] not in plugins:
         return message_utils.make_text('当前关键字没有可执行的命令', at_user_ids=[data.senderStaffId])
 
-    return plugins[message[0]].process(data)
+    try:
+        return plugins[message[0]].process(data)
+    except:
+        import traceback
+        traceback.print_exc()
+        return message_utils.make_text(f'关键字 {message[0]} 命令出错，请联系管理员')
 
 
 if __name__ == '__main__':
